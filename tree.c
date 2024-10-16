@@ -27,6 +27,8 @@ int main(int argc, char *argv[]) {
     printf("%i\n", check);
 
     // print_tree(tree);
+    depth_first(tree);
+    printf("\n");
 }
 
 int binary_tree(int num, node **tree) {
@@ -62,6 +64,18 @@ bool search_tree(int num, node *tree) {
         return true;
     }
     
+}
+
+void depth_first(node *tree) {
+    if (tree != NULL) {
+        if ( tree->left != NULL) {
+            depth_first(tree->left);
+        } 
+        printf("%i ", tree->number);
+        if ( tree->right != NULL) {
+            depth_first(tree->right);
+        } 
+    }
 }
 
 void print_tree(node *tree) {
