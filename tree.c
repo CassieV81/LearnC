@@ -10,6 +10,8 @@ typedef struct node {
 
 int binary_tree(int num, node **tree);
 bool search_tree(int num, node *tree);
+int tree_depth(node *tree, int rdepth, int ldepth);
+void depth_first(node *tree);
 void print_tree(node *tree);
 
 int main(int argc, char *argv[]) {
@@ -23,9 +25,12 @@ int main(int argc, char *argv[]) {
        
     }
 
-    bool check = search_tree(40, tree);
-    printf("%i\n", check);
+    // bool check = search_tree(40, tree);
+    // printf("%i\n", check);
 
+    int depth = tree_depth(tree, 0, 0);
+    printf("%i\n", depth);
+    
     // print_tree(tree);
     depth_first(tree);
     printf("\n");
@@ -52,6 +57,38 @@ int binary_tree(int num, node **tree) {
     return 0;
 }
 
+int tree_depth(node *tree, int rdepth, int ldepth) {
+    
+    // printf("Left: %i\n", ldepth);
+    // printf("Right: %i\n", rdepth);
+    if (tree == NULL) {
+        if (rdepth > ldepth){
+            return rdepth;
+        } else {
+            return ldepth;
+        }
+    } 
+    if (tree->left != NULL) {
+        ldepth++;
+        ldepth = tree_depth(tree->left, rdepth, ldepth);
+        ldepth = tree_depth(tree->left->right, rdepth, ldepth);
+    } 
+    if (tree->right != NULL) {
+        rdepth++;
+        rdepth = tree_depth(tree->right, rdepth, ldepth);
+        rdepth = tree_depth(tree->right->left, rdepth, ldepth);
+    }
+    if (rdepth > ldepth){
+        return rdepth;
+    } else {
+        return ldepth;
+    }
+}
+
+int balance_tree(node *tree) {
+    
+}
+
 bool search_tree(int num, node *tree) {
 
     if (tree == NULL) {
@@ -59,8 +96,8 @@ bool search_tree(int num, node *tree) {
     } else if (num < tree->number) {
         return search_tree(num, tree->left);
     } else if (num > tree->number) {
-        search_tree(num, tree->right);
-    }else {
+        return search_tree(num, tree->right);
+    } else {
         return true;
     }
     
